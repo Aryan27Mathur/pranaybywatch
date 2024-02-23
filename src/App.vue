@@ -3,6 +3,7 @@
     <div class="centered">
       <h1>Pranayby Watch!</h1>
       <div class="stacked">
+        <p class="timestamp">Last Seen: {{ timestamp }}</p>
         <button v-if="!buttonPressed" id="foundBtn" @click="getLocation" type="button" class="btn btn-primary btn-lg">I see Pranay!</button>
         <iframe :src="iframeSrc" width="800" height="600" frameborder="0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <p v-if="buttonPressed" class="thanks-msg">Thanks soldier! 😊</p>
@@ -32,6 +33,7 @@ export default {
       latitude: null,
       longitude: null,
       buttonPressed: false,
+      timestamp: null,
     };
   },
   async created() {
@@ -43,6 +45,7 @@ export default {
         const data = docSnap.data();
         this.latitude = data.coordinates._lat;
         this.longitude = data.coordinates._long;
+        this.timestamp = new Date(data.timestamp).toLocaleString();
         console.log(data.coordinates);
       } else {
         console.log("No such document!");
